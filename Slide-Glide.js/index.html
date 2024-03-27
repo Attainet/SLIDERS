@@ -1,0 +1,231 @@
+'<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Slider Pro</title>
+ 
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@glidejs/glide/dist/css/glide.core.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@glidejs/glide/dist/css/glide.theme.min.css">
+  <style>
+    body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      margin: 0;
+    }
+    h1 {
+            text-align: center;
+            font-family: Arial, sans-serif; 
+            margin-bottom: 100px;
+            font-size: 36px;
+        }
+
+    .title {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .row {
+      display: flex;
+      gap: 80px;
+    }
+
+    .box {
+      position: relative;
+      width: 400px;
+      height: 200px;
+      border: 2px solid black;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      overflow: hidden;
+      background-color: #8edcf0; /* Color de fondo del contenedor */
+    }
+
+    .swiper-container {
+      width: 100%;
+      height: 100%;
+    }
+    .row:not(:last-child) {
+      margin-bottom: 80px;
+    }
+    .swiper-pagination {
+      position: absolute;
+      bottom: 10px;
+      left: 0;
+      width: 100%;
+    }
+    .pdf-viewer, .video-viewer, .text-content {
+      width: 100%;
+      height: 100%;
+    }
+
+    /* Estilos para las flechas de navegación */
+    .swiper-button-prev,
+    .swiper-button-next {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 10;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      opacity: 0;
+      transition: opacity 0.2s ease;
+    }
+
+    .swiper-button-prev {
+      left: 10px;
+    }
+
+    .swiper-button-next {
+      right: 10px;
+    }
+
+    .box:hover .swiper-button-prev,
+    .box:hover .swiper-button-next {
+      opacity: 1;
+    }
+
+    .text-content {
+      display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0; /* Añadido para eliminar el margen predeterminado del párrafo */
+    height: 100%; /* Añadido para asegurar que el texto ocupe toda la altura */
+    }
+  </style>
+</head>
+<body>
+
+<h1 class="title">Slider Pro</h1>
+
+<div class="row">
+  <div class="box">
+      <div class="glide">
+          <div class="glide__track" data-glide-el="track">
+              <ul class="glide__slides">
+                  <li class="glide__slide">
+                      <embed class="pdf-viewer" src="doc/Garda_2022.pdf" type="application/pdf"/>
+                  </li>
+                  <li class="glide__slide">
+                      <iframe class="video-viewer"
+                              src="https://www.youtube.com/embed/7Yrc2C-58SU?autoplay=1&amp;controls=0&amp;rel=0&amp;showinfo=0&amp;mute=1&amp;enablejsapi=1"
+                              frameborder="0" allowfullscreen></iframe>
+                  </li>
+                  <li class="glide__slide">
+                      <p class="text-content">Este es el texto que aparecerá en el slide</p>
+                  </li>
+              </ul>
+          </div>
+          <div class="glide__arrows" data-glide-el="controls">
+              <button class="glide__arrow glide__arrow--left" data-glide-dir="<">Prev</button>
+              <button class="glide__arrow glide__arrow--right" data-glide-dir=">">Next</button>
+          </div>
+      </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="box">
+    <div class="swiper-container swiper3">
+      <!-- Contenido del tercer slider -->
+    </div>
+  </div>
+  <div class="box">
+    <div class="swiper-container swiper4">
+      <!-- Contenido del cuarto slider -->
+    </div>
+  </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/@glidejs/glide"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    let player;
+
+    // Inicialización de cada instancia de Glide
+    document.querySelectorAll('.glide').forEach((element, index) => {
+      const glide = new Glide(element, {
+        type: 'carousel',
+        perView: 1,
+        autoplay: 4000, // Habilita el autoplay cada 4 segundos
+      });
+
+      glide.on('mount.after', () => {
+        handleSlideContent(glide);
+      });
+
+      glide.on('run.after', () => {
+        handleSlideContent(glide);
+      });
+
+      glide.mount();
+    });
+
+    function handleSlideContent(glide) {
+      const currentSlide = glide._c.Html.slides[glide.index];
+      
+      if (currentSlide.querySelector('.pdf-viewer')) {
+        console.log('PDF Viewer detected');
+        glide.play(); // Reinicia la reproducción automática del slider
+      } else if (currentSlide.querySelector('.video-viewer')) {
+        console.log('Video Viewer detected');
+        const videoElement = currentSlide.querySelector('.video-viewer');
+        handleVideoPlayback(videoElement, glide);
+      } else if (currentSlide.querySelector('.text-content')) {
+        console.log('Text content detected');
+        glide.play(); // Reinicia la reproducción automática del slider
+      }
+    }
+
+    // Función para manejar la reproducción del video
+    function handleVideoPlayback(videoElement, glide) {
+  // Verifica si el reproductor para el videoElement ya existe
+  const videoId = videoElement.getAttribute('id');
+
+  if (!window.videoPlayers) {
+    window.videoPlayers = {};
+  }
+
+  // Si ya existe una instancia del reproductor para este video, la reutiliza
+  if (window.videoPlayers[videoId]) {
+    const player = window.videoPlayers[videoId];
+    player.unMute(); // Quita el silencio del video
+    player.playVideo();
+    glide.pause(); // Detiene la reproducción automática del slider
+  } else {
+    // Si no existe, crea un nuevo reproductor y lo almacena
+    window.videoPlayers[videoId] = new YT.Player(videoElement, {
+      events: {
+        'onReady': function(event) {
+          event.target.unMute(); // Quita el silencio del video
+          event.target.playVideo();
+          glide.pause(); // Detiene la reproducción automática del slider
+        },
+        'onStateChange': function(event) {
+          if (event.data == YT.PlayerState.ENDED) {
+            glide.go('>');
+            glide.play(); // Reinicia la reproducción automática del slider
+          }
+        }
+      }
+    });
+  }
+}
+  });
+</script>
+<!-- Script de la API de YouTube (necesario para incrustar videos de YouTube) -->
+<script src="https://www.youtube.com/iframe_api"></script>
+
+
+</body>
+</html>
