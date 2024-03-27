@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Slider Pro</title>
+  <!-- Swiper CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
+
+  <!-- Swiper JS -->
+  <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      margin: 0;
+    }
+
+    h1 {
+      text-align: center;
+      font-family: Arial, sans-serif;
+      margin-bottom: 100px;
+      font-size: 36px;
+    }
+
+    .title {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .box {
+      position: relative;
+      border: 2px solid black;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      overflow: hidden;
+      background-color: #8edcf0;
+      height: 250px;
+      margin: 20%;
+
+    }
+
+    .swiper-container {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+
+
+    .swiper-pagination {
+      position: absolute;
+      bottom: 10px;
+      left: 0;
+      width: 100%;
+    }
+
+    .pdf-viewer,
+    .video-viewer,
+    .text-content {
+      width: 100%;
+      height: 100%;
+    }
+
+    /* Estilos para las flechas de navegación */
+    .swiper-button-prev,
+    .swiper-button-next {
+      --swiper-navigation-size: 20px;
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 10;
+      border-radius: 50%;
+      color: rgb(146, 134, 134);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+
+      opacity: 0;
+      transition: opacity 0.5s ease-in-out;
+      /* background-color: azure;
+      height: 40px;
+      width: 40px; */
+
+    }
+
+    .swiper-button-prev {
+      left: 10px;
+    }
+
+    .swiper-button-next {
+      right: 10px;
+    }
+
+    .box:hover .swiper-button-prev,
+    .box:hover .swiper-button-next {
+      opacity: 1;
+
+    }
+
+    .text-content {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0;
+      height: 100%;
+    }
+
+    .box .swiper-pagination {
+      --swiper-pagination-color: #f7f3f3;
+      --swiper-pagination-bullet-size: 6px;
+      --swiper-pagination-bullet-active-color: #000;
+      --swiper-pagination-bullet-incactive-opacity: 0.25;
+      --swiper-pagination-bullet-opacity: 1;
+      --swiper-pagination-bullet-horizontal-gap: 4px;
+
+    }
+
+    .box .swiper-pagination-bullet {
+      box-shadow: inset 0 0 0 1px #000000(0, 0, 0, 0.25);
+    }
+
+    .fullscreen-slide {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1000;
+      background-color: rgba(250, 250, 250, 0.8);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+
+    @media (min-width: 992px) {
+      .box {
+        max-width: 70%;
+      }
+    }
+
+    @media (max-width: 991px) {
+      .box {
+        max-width: 100%;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <h1 class="title">Slider Pro</h1>
+
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-6">
+        <div class="box m-2">
+          <div class="swiper-container swiper1">
+            <div class="swiper-wrapper">
+              <div class="swiper-slide">
+                <img src="img/1.png" data-pdf="doc/Garda_2022.pdf" style="width: 100%; object-fit: cover;">
+              </div>
+              <div class="swiper-slide">
+                <iframe class="video-viewer"
+                  src="https://www.youtube.com/embed/7Yrc2C-58SU?autoplay=1&amp;controls=0&amp;rel=0&amp;showinfo=0&amp;mute=1&amp;enablejsapi=1"
+                  frameborder="0" allowfullscreen></iframe>
+              </div>
+              <div class="swiper-slide">
+                <p class="text-content">Este es el texto que aparecerá en el slide</p>
+              </div>
+
+
+              <div class="swiper-slide">
+                <div class="image-gallery" style="display: flex; overflow: hidden; width: 100%; height: 100%;">
+                  <img src="img/1.png" style="width: 100%; object-fit: cover;">
+                  <img src="img/2.png" style="width: 100%; object-fit: cover;">
+                  <img src="img/3.jpeg" style="width: 100%; object-fit: cover;">
+                </div>
+              </div>
+
+              <div class="swiper-slide">
+                <img src="img/2.png" style="width: 100%; object-fit: cover;">
+              </div>
+
+            </div>
+            <!-- Flechas de navegación -->
+            <div class="swiper-button-prev"></div>
+            <div class="swiper-button-next"></div>
+            <div class="swiper-pagination"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-6">
+        <div class="box m-2">
+          <img src="img/2.png" alt="">
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-lg-6">
+        <div class="box m-2">
+          <img src="img/2.png" alt="">
+        </div>
+      </div>
+
+      <div class="col-lg-6">
+        <div class="box m-2">
+          <img src="img/2.png" alt="">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+  <!-- Tu código JavaScript aquí -->
+
+  <!-- Script de la API de YouTube (necesario para incrustar videos de YouTube) -->
+  <script src="https://www.youtube.com/iframe_api"></script>
+
+  <!-- Bootstrap JS -->
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+  <script>
+    // Espera a que el DOM esté completamente cargado
+    document.addEventListener('DOMContentLoaded', function () {
+      // Selecciona todos los elementos con la clase 'swiper-slide'
+      document.querySelectorAll('.swiper-slide').forEach(slide => {
+        // Añade un evento de click a cada slide
+        slide.addEventListener('click', (event) => {
+          // Detiene la propagación del evento
+          event.stopPropagation();
+
+          // Crea un nuevo div para el slide en pantalla completa
+          const fullscreenSlide = document.createElement('div');
+          fullscreenSlide.classList.add('fullscreen-slide');
+          fullscreenSlide.style.position = 'fixed';
+          fullscreenSlide.style.top = '50%';
+          fullscreenSlide.style.left = '50%';
+          fullscreenSlide.style.transform = 'translate(-50%, -50%)';
+          fullscreenSlide.style.maxWidth = '80%';
+          fullscreenSlide.style.maxHeight = '80%';
+          fullscreenSlide.style.overflow = 'auto';
+          fullscreenSlide.style.zIndex = '1000';
+          fullscreenSlide.style.backgroundColor = 'rgba(250, 250, 250, 0.8)';
+
+          // Clona el primer hijo del slide y añade un evento de click para detener la propagación
+          const content = slide.firstElementChild.cloneNode(true);
+          const originalStyles = {};
+          content.addEventListener('click', (event) => {
+            event.stopPropagation();
+          });
+
+          // Crea un botón de cierre y añade un evento de click para cerrar el slide en pantalla completa
+          const closeButton = document.createElement('button');
+          closeButton.textContent = 'X';
+          closeButton.style.position = 'absolute';
+          closeButton.style.top = '10px';
+          closeButton.style.right = '10px';
+          closeButton.style.padding = '10px';
+          closeButton.style.backgroundColor = 'red';
+          closeButton.style.color = 'white';
+          closeButton.style.border = 'none';
+          closeButton.style.borderRadius = '5px';
+          closeButton.style.cursor = 'pointer';
+          fullscreenSlide.appendChild(closeButton);
+          closeButton.addEventListener('click', (event) => {
+            event.stopPropagation();
+            closeFullscreen();
+          });
+
+          // Dependiendo del tipo de contenido, realiza diferentes acciones
+          if (content.tagName === 'IMG') {
+            if (content.hasAttribute('data-pdf')) {
+              // Si es una imagen con el atributo 'data-pdf', crea un visor de PDF
+              const pdfViewer = document.createElement('embed');
+              pdfViewer.src = content.getAttribute('data-pdf');
+              pdfViewer.type = 'application/pdf';
+              pdfViewer.style.width = '100%';
+              pdfViewer.style.height = '100%';
+              pdfViewer.addEventListener('click', (event) => {
+                event.stopPropagation();
+              });
+              fullscreenSlide.appendChild(pdfViewer);
+            } else {
+              // Si es una imagen sin el atributo 'data-pdf', crea una nueva imagen
+              const img = document.createElement('img');
+              img.src = content.src;
+              img.style.width = '100%';
+              img.style.height = '100%';
+              img.style.objectFit = 'contain';
+              fullscreenSlide.appendChild(img);
+            }
+          } else if (content.tagName === 'P') {
+            // Si es un párrafo, cambia el tamaño de la fuente y el peso de la fuente
+            originalStyles.fontSize = content.style.fontSize;
+            originalStyles.fontWeight = content.style.fontWeight;
+            content.style.fontSize = 'larger';
+            content.style.fontWeight = 'bold';
+            content.addEventListener('click', (event) => {
+              event.stopPropagation();
+            });
+            fullscreenSlide.appendChild(content);
+          } else if (content.classList.contains('image-gallery')) {
+            // Si es una galería de imágenes, añade un evento de click a cada imagen
+            const images = content.querySelectorAll('img');
+            let currentIndex = 0;
+            let viewedImages = new Set();
+            images.forEach((img, index) => {
+              img.addEventListener('click', (event) => {
+                event.stopPropagation();
+                currentIndex = (currentIndex + 1) % images.length;
+                const mainImage = fullscreenSlide.querySelector('.main-image');
+                mainImage.src = images[currentIndex].src;
+                viewedImages.add(currentIndex);
+                if (viewedImages.size === images.length) {
+                  closeFullscreen();
+                }
+              });
+              if (index === 0) {
+                img.classList.add('main-image');
+              }
+            });
+            fullscreenSlide.appendChild(content);
+          } else if (content.classList.contains('pdf-viewer') || content.classList.contains('video-viewer')) {
+            // Si es un visor de PDF o un visor de video, cambia el ancho y la altura
+            originalStyles.width = content.style.width;
+            originalStyles.height = content.style.height;
+            content.style.width = '100%';
+            content.style.height = '100%';
+            fullscreenSlide.appendChild(content);
+          }
+
+          // Añade el slide en pantalla completa al cuerpo del documento
+          document.body.appendChild(fullscreenSlide);
+
+          // Añade un evento de click al slide en pantalla completa para detener la propagación
+          fullscreenSlide.addEventListener('click', (event) => {
+            event.stopPropagation();
+          });
+
+          // Función para cerrar el slide en pantalla completa
+          function closeFullscreen() {
+            document.body.removeChild(fullscreenSlide);
+            if (content.tagName === 'P' || content.classList.contains('pdf-viewer') || content.classList.contains('video-viewer')) {
+              content.style.fontSize = originalStyles.fontSize;
+              content.style.fontWeight = originalStyles.fontWeight;
+              content.style.width = originalStyles.width;
+              content.style.height = originalStyles.height;
+            } else if (content.classList.contains('image-gallery')) {
+              // Reinicia la galería de imágenes
+              const images = content.querySelectorAll('img');
+              images.forEach((img, index) => {
+                img.style.display = index === 0 ? "block" : "none";
+              });
+              currentIndex = 0;
+              viewedImages.clear();
+            }
+
+            // Reanuda el autoplay
+            swiper.autoplay.start();
+          }
+          // Añade un evento de click al documento para cerrar el slide en pantalla completa
+          document.addEventListener('click', closeFullscreen);
+        });
+      });
+    });
+
+    //IMAGENES GALERIA
+    const handleImageGallery = (swiper) => {
+      // Obtiene la diapositiva actual
+      const currentSlide = swiper.slides[swiper.activeIndex];
+      // Busca una galería de imágenes en la diapositiva actual
+      const imageGallery = currentSlide.querySelector('.image-gallery');
+      if (imageGallery) {
+        // Si hay una galería de imágenes, detiene el autoplay del swiper
+        swiper.autoplay.stop();
+
+        // Obtiene todas las imágenes de la galería
+        let images = imageGallery.querySelectorAll('img');
+        let currentIndex = 0;
+        // Inicialmente, solo muestra la primera imagen
+        images.forEach((img, index) => {
+          img.style.display = index === 0 ? "block" : "none";
+        });
+
+        // Función para cambiar la imagen mostrada
+        const changeImage = () => {
+          // Oculta la imagen actual
+          images[currentIndex].style.display = "none";
+          currentIndex++;
+          if (currentIndex < images.length) {
+            // Si hay más imágenes, muestra la siguiente
+            images[currentIndex].style.display = "block";
+          } else {
+            // Si ya se mostraron todas las imágenes, avanza a la siguiente diapositiva
+            clearInterval(imageInterval);
+            swiper.autoplay.stop();
+            setTimeout(() => {
+              swiper.slideNext();
+              setTimeout(() => {
+                swiper.autoplay.start();
+              }, 5000);
+            }, 0);
+          }
+        };
+
+        // Cambia la imagen cada 3 segundos
+        let imageInterval = setInterval(changeImage, 3000);
+
+        // Función para reiniciar el intervalo de cambio de imagen después de interactuar con la galería
+        const resetInteractionTimeout = () => {
+          clearTimeout(interactionTimeout);
+          interactionTimeout = setTimeout(() => {
+            clearInterval(imageInterval);
+            if (currentIndex < images.length) {
+              changeImage();
+            }
+            imageInterval = setInterval(changeImage, 3000);
+          }, 3000);
+        };
+
+        // Reinicia el intervalo de cambio de imagen cuando se hace clic en la galería
+        imageGallery.addEventListener('click', () => {
+          resetInteractionTimeout();
+        });
+
+        // Reinicia el intervalo de cambio de imagen cuando el cursor sale de la galería
+        imageGallery.addEventListener('mouseleave', () => {
+          resetInteractionTimeout();
+        });
+
+        // Reinicia el intervalo de cambio de imagen cuando el cursor entra en el swiper
+        swiper.el.addEventListener('mouseenter', () => {
+          resetInteractionTimeout();
+        });
+
+        // Reinicia el autoplay del swiper cuando el cursor sale del swiper
+        swiper.el.addEventListener('mouseleave', () => {
+          swiper.autoplay.start();
+        });
+
+      } else {
+        // Si no hay una galería de imágenes, reanuda el autoplay del swiper
+        swiper.autoplay.start();
+      }
+    };
+    // Función para manejar la reproducción del video
+    function handleVideoPlayback(videoIframe, swiper) {
+      const player = new YT.Player(videoIframe, {
+        events: {
+          'onReady': function (event) {
+            // Inicia la reproducción del video cuando está listo
+            event.target.playVideo();
+            swiper.autoplay.stop(); // Detiene el autoplay cuando el video comienza
+          },
+          'onStateChange': function (event) {
+            if (event.data === YT.PlayerState.ENDED) {
+              swiper.slideNext(); // Avanza a la siguiente diapositiva cuando el video termina
+              swiper.autoplay.start(); // Reinicia la reproducción automática del slider
+            }
+          }
+        }
+      });
+    }
+
+    // Inicialización de cada instancia de Swiper
+    document.querySelectorAll('.swiper-container').forEach((element, index) => {
+      // Crea una nueva instancia de Swiper para cada elemento con la clase 'swiper-container'
+      const swiper = new Swiper(element, {
+        loop: true, // Habilita el bucle, es decir, la navegación circular entre diapositivas
+        slidesPerView: 'auto', // Ajusta automáticamente el número de diapositivas visibles
+        pagination: {
+          el: element.querySelector('.swiper-pagination'), // Elemento para la paginación
+          clickable: true, // Habilita la interacción con los botones de paginación
+          dynamicBullets: true, // Habilita los bullets dinámicos en la paginación
+        },
+        autoplay: {
+          delay: 5000, // Retraso entre transiciones automáticas
+          disableOnInteraction: true, // Deshabilita el autoplay al interactuar con el swiper
+        },
+        navigation: {
+          nextEl: element.querySelector('.swiper-button-next'), // Elemento para el botón de siguiente
+          prevEl: element.querySelector('.swiper-button-prev'), // Elemento para el botón de anterior
+        },
+        touch: true, // Habilita la navegación táctil
+        on: {
+          slideChangeTransitionEnd: function () {
+            // Al finalizar la transición de cambio de diapositiva, si la diapositiva tiene un visor de video, maneja la reproducción del video
+            if (swiper.slides[swiper.activeIndex].querySelector('.video-viewer')) {
+              const videoViewer = swiper.slides[swiper.activeIndex].querySelector('.video-viewer');
+              handleVideoPlayback(videoViewer, swiper);
+            }
+          },
+          touchEnd: function () {
+            // No reinicia el autoplay después de la interacción táctil
+          },
+          slideChangeTransitionEnd: function () {
+            // Al finalizar la transición de cambio de diapositiva, si la diapositiva tiene un visor de video, maneja la reproducción del video
+            if (swiper.slides[swiper.activeIndex].querySelector('.video-viewer')) {
+              const videoViewer = swiper.slides[swiper.activeIndex].querySelector('.video-viewer');
+              handleVideoPlayback(videoViewer, swiper);
+            }
+            // Maneja la galería de imágenes
+            handleImageGallery(swiper);
+          },
+          autoplay: function () {
+            // No detiene el autoplay si la diapositiva tiene un visor de video
+          }
+        }
+      });
+      // Maneja el contenido de la primera diapositiva
+      handleSlideContent(swiper);
+      // Maneja la galería de imágenes de la primera diapositiva
+      handleImageGallery(swiper);
+    });
+
+
+  </script>
+  <!-- Script de la API de YouTube (necesario para incrustar videos de YouTube) -->
+  <script src="https://www.youtube.com/iframe_api"></script>
+
+</body>
+
+</html>
