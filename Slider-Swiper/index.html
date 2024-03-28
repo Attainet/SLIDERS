@@ -206,6 +206,7 @@
         'onReady': function (event) {
           event.target.playVideo();
           swiper.autoplay.stop();
+          event.target.unMute(); // Añade esta línea para habilitar el audio
           swiper.allowTouchMove = false;
         },
         'onStateChange': function (event) {
