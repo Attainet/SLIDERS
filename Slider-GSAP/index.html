@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Slider Pro</title>
+  <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.10.4/gsap.min.js"></script>
+  <style>
+    body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      margin: 0;
+    }
+    h1 {
+            text-align: center;
+            font-family: Arial, sans-serif; 
+            margin-bottom: 100px;
+            font-size: 36px;
+        }
+
+    .title {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .row {
+      display: flex;
+      gap: 80px;
+    }
+
+    .box {
+      position: relative;
+      width: 400px;
+      height: 200px;
+      border: 2px solid black;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      overflow: hidden;
+      background-color: #8edcf0; /* Color de fondo del contenedor */
+    }
+
+    .swiper-container {
+      width: 100%;
+      height: 100%;
+    }
+    .row:not(:last-child) {
+      margin-bottom: 80px;
+    }
+    .swiper-pagination {
+      position: absolute;
+      bottom: 10px;
+      left: 0;
+      width: 100%;
+    }
+    .pdf-viewer, .video-viewer, .text-content {
+      width: 100%;
+      height: 100%;
+    }
+
+    /* Estilos para las flechas de navegación */
+    .swiper-button-prev,
+    .swiper-button-next {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 10;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      opacity: 0;
+      transition: opacity 0.2s ease;
+    }
+
+    .swiper-button-prev {
+      left: 10px;
+    }
+
+    .swiper-button-next {
+      right: 10px;
+    }
+
+    .box:hover .swiper-button-prev,
+    .box:hover .swiper-button-next {
+      opacity: 1;
+    }
+
+    .text-content {
+      display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0; /* Añadido para eliminar el margen predeterminado del párrafo */
+    height: 100%; /* Añadido para asegurar que el texto ocupe toda la altura */
+    }
+  </style>
+</head>
+<body>
+
+<h1 class="title">Slider Pro</h1>
+
+<div class="row">
+  <div class="box">
+    <div class="swiper-container swiper1">
+      <div class="swiper-wrapper">
+        <div class="swiper-slide">
+          <embed class="pdf-viewer" src="doc/Garda_2022.pdf" type="application/pdf"/>
+        </div>
+        <div class="swiper-slide">
+          <iframe class="video-viewer"
+            src="https://www.youtube.com/embed/7Yrc2C-58SU?autoplay=1&amp;controls=0&amp;rel=0&amp;showinfo=0&amp;mute=1&amp;enablejsapi=1"
+            frameborder="0" allowfullscreen></iframe>
+        </div>
+        <div class="swiper-slide">
+          <p class="text-content">Este es el texto que aparecerá en el slide</p>
+        </div>
+      </div>
+      <!-- Flechas de navegación -->
+      <div class="swiper-button-prev"></div>
+      <div class="swiper-button-next"></div>
+    </div>
+  </div>
+  <div class="box">
+    <div class="swiper-container swiper2">
+      <!-- Contenido del segundo slider -->
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="box">
+    <div class="swiper-container swiper3">
+      <!-- Contenido del tercer slider -->
+    </div>
+  </div>
+  <div class="box">
+    <div class="swiper-container swiper4">
+      <!-- Contenido del cuarto slider -->
+    </div>
+  </div>
+</div>
+<script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Inicialización de Swiper
+    document.querySelectorAll('.swiper-container').forEach((element, index) => {
+      const swiper = new Swiper(element, {
+        loop: true,
+        slidesPerView: 'auto',
+        pagination: {
+          el: element.querySelector('.swiper-pagination'),
+          clickable: true,
+          dynamicBullets: true,
+        },
+        autoplay: {
+          delay: 5000,
+          disableOnInteraction: false,
+        },
+        navigation: {
+          nextEl: element.querySelector('.swiper-button-next'),
+          prevEl: element.querySelector('.swiper-button-prev'),
+        },
+        touch: true, // Habilitar navegación táctil
+        on: {
+          init: function () {
+            // Manejar el contenido del primer slide al inicializar
+            handleSlideContent(this);
+          },
+          slideChange: function() {
+            // Manejar el contenido cada vez que cambia el slide
+            handleSlideContent(this);
+          }
+        }
+      });
+    });
+  
+    function handleSlideContent(swiper) {
+      const currentSlide = swiper.slides[swiper.activeIndex];
+      
+      if (currentSlide.querySelector('.pdf-viewer')) {
+        console.log('PDF Viewer detected');
+        swiper.autoplay.start(); // Reinicia la reproducción automática del slider
+      } else if (currentSlide.querySelector('.video-viewer')) {
+        console.log('Video Viewer detected');
+        const videoIframe = currentSlide.querySelector('.video-viewer');
+        handleVideoPlayback(videoIframe, swiper);
+      } else if (currentSlide.querySelector('.text-content')) {
+        console.log('Text content detected');
+        swiper.autoplay.start(); // Reinicia la reproducción automática del slider
+      }
+    }
+  
+    function handleVideoPlayback(videoIframe, swiper) {
+      // Detenemos el autoplay del Swiper al detectar un slide de video
+      swiper.autoplay.stop();
+      swiper.allowTouchMove = false; // Opcional: evita que se deslice mientras el video está activo
+  
+      // Usamos GSAP para iniciar alguna animación, como revelar el video
+      gsap.fromTo(videoIframe, {opacity: 0}, {opacity: 1, duration: 1});
+  
+      // Aquí debemos asegurarnos de manejar la API de YouTube para controlar la reproducción
+      const videoId = videoIframe.src.split('embed/')[1].split('?')[0];
+      if (window.YT && YT.Player) {
+        // Si la API de YouTube ya está cargada, usamos YT.Player para controlar el video
+        initializeYouTubePlayer(videoIframe, videoId, swiper);
+      } else {
+        // Si la API de YouTube no está cargada, esperamos a que YT esté definido
+        var checkYouTubeAPI = setInterval(function() {
+          if (window.YT && YT.Player) {
+            clearInterval(checkYouTubeAPI);
+            initializeYouTubePlayer(videoIframe, videoId, swiper);
+          }
+        }, 100);
+      }
+    }
+  
+    function initializeYouTubePlayer(videoIframe, videoId, swiper) {
+      const player = new YT.Player(videoIframe, {
+        videoId: videoId,
+        events: {
+          'onReady': function(event) {
+            event.target.playVideo();
+            event.target.unMute(); // Añade esta línea para habilitar el audio
+          },
+          'onStateChange': function(event) {
+            if (event.data === YT.PlayerState.ENDED) {
+              // Al finalizar el video, movemos al siguiente slide y reiniciamos autoplay
+              swiper.slideNext();
+              swiper.autoplay.start();
+              swiper.allowTouchMove = true;
+            }
+          }
+        }
+      });
+    }
+  });
+  </script>
+<!-- Script de la API de YouTube (necesario para incrustar videos de YouTube) -->
+<script src="https://www.youtube.com/iframe_api"></script>
+
+
+</body>
+</html>
