@@ -29,13 +29,15 @@
       position: relative;
       width: 400px;
       height: 200px;
-      border: 2px solid black;
+      border: 2px solid #333; /* Cambia el color del borde del contenedor */
       display: flex;
       align-items: center;
       justify-content: center;
       text-align: center;
       overflow: hidden;
-      background-color: #8edcf0; /* Color de fondo del contenedor */
+      background-color: #fff; /* Cambia el color de fondo del contenedor */
+      border-radius: 10px; /* Añade bordes redondeados al contenedor */
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1); /* Añade sombra al contenedor */
     }
 
     .swiper-container {
@@ -60,10 +62,14 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      margin: 0; /* Añadido para eliminar el margen predeterminado del párrafo */
-      height: 100%; /* Añadido para asegurar que el texto ocupe toda la altura */
+      margin: 0;
+      height: 100%;
+      font-size: 24px; /* Cambia el tamaño de fuente del texto */
+      color: #000000; /* Cambia el color del texto */
     }
-  </style>
+
+
+  </style>  
 </head>
 <body>
 
@@ -85,8 +91,8 @@
       </div>
     </div>
   </div>
-  <button id="prevButton" style="position: absolute; left: 10px;">Anterior</button>
-  <button id="nextButton" style="position: absolute; right: 10px;">Siguiente</button>
+  <button id="prevButton" style="position: absolute; left: 10px;">&lt;</button>
+  <button id="nextButton" style="position: absolute; right: 10px;">></button>
 </div>
 
 <script>
@@ -96,10 +102,9 @@ document.addEventListener('DOMContentLoaded', function() {
     let sliderInterval;
     let videoPlayer;
 
-
     function nextSlide() {
       if (videoPlayer) {
-        videoPlayer.stopVideo(); // Detener el video antes de cambiar de diapositiva
+        videoPlayer.stopVideo();
       }
       slides[currentSlideIndex].classList.remove('active');
       currentSlideIndex = (currentSlideIndex + 1) % slides.length;
@@ -124,6 +129,7 @@ document.addEventListener('DOMContentLoaded', function() {
         startSliderInterval();
       } else if (currentSlide.querySelector('.video-viewer')) {
         console.log('Video Viewer detected');
+        clearInterval(sliderInterval); // Stop the slider interval when a video is detected
         handleVideoPlayback(currentSlide.querySelector('.video-viewer'));
       } else if (currentSlide.querySelector('.text-content')) {
         console.log('Text content detected');
@@ -137,7 +143,6 @@ document.addEventListener('DOMContentLoaded', function() {
           events: {
             'onReady': function (event) {
               event.target.unMute();
-              clearInterval(sliderInterval);
               event.target.playVideo();
             },
             'onStateChange': function (event) {
@@ -161,17 +166,22 @@ document.addEventListener('DOMContentLoaded', function() {
     startSliderInterval();
 
     document.getElementById('nextButton').addEventListener('click', function() {
+      if (videoPlayer) {
+        videoPlayer.stopVideo();
+      }
       clearInterval(sliderInterval);
       nextSlide();
     });
 
     document.getElementById('prevButton').addEventListener('click', function() {
+      if (videoPlayer) {
+        videoPlayer.stopVideo();
+      }
       clearInterval(sliderInterval);
       prevSlide();
     });
-  });
+});
 </script>
-
 
 <!-- Script de la API de YouTube (necesario para incrustar videos de YouTube) -->
 <script src="https://www.youtube.com/iframe_api"></script>
