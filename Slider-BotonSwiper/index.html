@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta viewport="width=device-width, initial-scale=1.0">
+  <title>Slider Pro</title>
+  <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css"/>
+  <style>
+    #slider {
+      width: 80%; /* Adjust size as needed */
+      margin: 0 auto;
+      overflow: hidden;
+    }
+    .swiper-slide {
+      background-color: #f0f0f0; /* Set background color */
+      border-radius: 8px; /* Add border radius */
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add box shadow */
+    }
+    .text-content {
+      text-align: center; /* Center text content */
+      padding: 20px;
+      font-size: 18px;
+    }
+    .pdf-viewer {
+      width: 100%;
+      height: 100%;
+    }
+    .swiper-button-next,
+    .swiper-button-prev {
+      background-color: #050607; /* Button background color */
+      border-radius: 50%; /* Make buttons round */
+      width: 40px; /* Set button size */
+      height: 40px;
+      margin-top: -20px; /* Adjust position */
+      font-size: 20px;
+    }
+    .swiper-button-next::after,
+    .swiper-button-prev::after {
+      content: ''; /* Hide default arrow */
+    }
+    #playButton {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 24px;
+      padding: 10px 20px;
+      cursor: pointer;
+      z-index: 1; /* Ensure button is above slides */
+    }
+  </style>
+</head>
+<body>
+
+<h1 class="title">Slider Pro</h1>
+
+<div id="slider" class="swiper-container">
+  <div class="swiper-wrapper">
+    <div class="swiper-slide">
+      <div id="youtube-video1"></div>
+    </div>
+    <div class="swiper-slide">
+      <p class="text-content">Este es el texto que aparecerá en el slide</p>
+    </div>
+    <div class="swiper-slide">
+      <embed class="pdf-viewer" src="doc/Garda_2022.pdf" type="application/pdf"/>
+    </div>
+    <!-- Add more slides as needed -->
+  </div>
+  <div class="swiper-button-next"></div>
+  <div class="swiper-button-prev"></div>
+</div>
+
+<button id="playButton">Play</button>
+
+<script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+<script src="https://www.youtube.com/iframe_api"></script>
+<script>
+var player1;
+var videoSlideIndex = 0; // Index of the slide with the video
+
+document.getElementById('playButton').addEventListener('click', function() {
+  if (!player1) {
+    player1 = new YT.Player('youtube-video1', {
+      height: '360',
+      width: '640',
+      videoId: '7Yrc2C-58SU', // Video ID for the first slide
+      playerVars: { 'autoplay': 1, 'controls': 1, 'mute': 0 }, // Ensure video starts with audio
+      events: {
+        'onReady': onPlayerReady1,
+        'onStateChange': onPlayerStateChange1
+      }
+    });
+  } else {
+    player1.playVideo();
+  }
+});
+
+function onPlayerReady1(event) {
+  event.target.playVideo();
+  document.getElementById('playButton').style.display = 'none';
+}
+
+function onPlayerStateChange1(event) {
+  if (event.data == YT.PlayerState.PLAYING) {
+    swiper.autoplay.stop(); // Stop autoplay when video starts
+  }
+  if (event.data == YT.PlayerState.ENDED) {
+    swiper.autoplay.start(); // Start autoplay when video ends
+    swiper.slideNext(); // Go to the next slide when video ends
+  }
+}
+
+var swiper = new Swiper('.swiper-container', {
+  // Optional parameters
+  slidesPerView: 1,
+  spaceBetween: 30,
+  loop: true,
+  autoplay: {
+    delay: 3000, // Change slide every 3 seconds
+    disableOnInteraction: false,
+  },
+  navigation: {
+    nextEl: '.swiper-button-next',
+    prevEl: '.swiper-button-prev',
+  },
+  on: {
+    slideChange: function () {
+      if (this.realIndex = videoSlideIndex) {
+        if (player1) {
+          player1.seekTo(0); // Restart video
+          player1.playVideo();
+        }
+      }
+    },
+  },
+});
+</script>
+
+</body>
+</html>
