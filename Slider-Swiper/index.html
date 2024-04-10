@@ -197,30 +197,53 @@
     }
   }
 
-  function handleVideoPlayback(videoIframe, swiper) {
-    const videoId = videoIframe.src.split('embed/')[1].split('?')[0]; // Obtiene el videoId de la URL del iframe
+ function handleVideoPlayback(videoIframe, swiper) {
+  const videoId = videoIframe.src.split('embed/')[1].split('?')[0]; // Obtiene el videoId de la URL del iframe
 
-    const player = new YT.Player(videoIframe, { // Pasamos el iframe directamente, en lugar de su id
+  let player = videoIframe.player;
+
+  if (!player) {
+    player = new YT.Player(videoIframe, { // Pasamos el iframe directamente, en lugar de su id
       videoId: videoId,
       events: {
         'onReady': function (event) {
           event.target.playVideo();
           swiper.autoplay.stop();
           event.target.unMute(); // Añade esta línea para habilitar el audio
-          swiper.allowTouchMove = false;
         },
         'onStateChange': function (event) {
           if (event.data === YT.PlayerState.ENDED) {
             swiper.slideNext();
             swiper.autoplay.start();
-            swiper.allowTouchMove = true;
           }
         }
       }
     });
 
-    swiper.autoplay.stop();
+    videoIframe.player = player;
+  } else {
+    player.playVideo();
   }
+
+  swiper.on('slideChange', function () {
+    const previousSlide = swiper.slides[swiper.previousIndex];
+    const video = previousSlide.querySelector('iframe');
+    if (video && video.player) {
+      video.player.stopVideo();
+    }
+  });
+
+  swiper.on('slideChangeTransitionEnd', function () {
+    const currentSlide = swiper.slides[swiper.activeIndex];
+    const video = currentSlide.querySelector('iframe');
+    if (video && video.player) {
+      video.player.playVideo();
+      video.player.unMute();
+    }
+  });
+
+  swiper.autoplay.stop();
+}
 });
 </script>
 
