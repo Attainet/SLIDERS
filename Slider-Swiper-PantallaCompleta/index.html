@@ -2,103 +2,51 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta viewport="width=device-width, initial-scale=1.0">
   <title>Slider Pro</title>
-  <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
+  <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css"/>
   <style>
-    body {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      min-height: 100vh;
-      margin: 0;
-    }
-    h1 {
-            text-align: center;
-            font-family: Arial, sans-serif; 
-            margin-bottom: 100px;
-            font-size: 36px;
-        }
-
-    .title {
-      text-align: center;
-      margin-bottom: 20px;
-    }
-    .row {
-      display: flex;
-      gap: 80px;
-    }
-
-    .box {
-      position: relative;
-      width: 400px;
-      height: 200px;
-      border: 2px solid black;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
+    #slider {
+      width: 80%; /* Adjust size as needed */
+      margin: 0 auto;
       overflow: hidden;
-      background-color: #8edcf0; /* Color de fondo del contenedor */
     }
-
-    .swiper-container {
+    .swiper-slide {
+      background-color: #f0f0f0; /* Set background color */
+      border-radius: 8px; /* Add border radius */
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add box shadow */
+    }
+    .text-content {
+      text-align: center; /* Center text content */
+      padding: 20px;
+      font-size: 18px;
+    }
+    .pdf-viewer {
       width: 100%;
       height: 100%;
     }
-    .row:not(:last-child) {
-      margin-bottom: 80px;
+    .swiper-button-next,
+    .swiper-button-prev {
+      background-color: #050607; /* Button background color */
+      border-radius: 50%; /* Make buttons round */
+      width: 40px; /* Set button size */
+      height: 40px;
+      margin-top: -20px; /* Adjust position */
+      font-size: 20px;
     }
-    .swiper-pagination {
-      position: absolute;
-      bottom: 10px;
-      left: 0;
-      width: 100%;
+    .swiper-button-next::after,
+    .swiper-button-prev::after {
+      content: ''; /* Hide default arrow */
     }
-    .pdf-viewer, .video-viewer, .text-content {
-      width: 100%;
-      height: 100%;
-    }
-
-    /* Estilos para las flechas de navegación */
-    .swiper-button-prev,
-    .swiper-button-next {
+    #playButton {
       position: absolute;
       top: 50%;
-      transform: translateY(-50%);
-      z-index: 10;
-      width: 30px;
-      height: 30px;
-      border-radius: 50%;
-      color: white;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 24px;
+      padding: 10px 20px;
       cursor: pointer;
-      opacity: 0;
-      transition: opacity 0.2s ease;
-    }
-
-    .swiper-button-prev {
-      left: 10px;
-    }
-
-    .swiper-button-next {
-      right: 10px;
-    }
-
-    .box:hover .swiper-button-prev,
-    .box:hover .swiper-button-next {
-      opacity: 1;
-    }
-
-    .text-content {
-      display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 0; /* Añadido para eliminar el margen predeterminado del párrafo */
-    height: 100%; /* Añadido para asegurar que el texto ocupe toda la altura */
+      z-index: 1; /* Ensure button is above slides */
     }
   </style>
 </head>
@@ -106,96 +54,110 @@
 
 <h1 class="title">Slider Pro</h1>
 
-<div class="row">
-  <div class="box">
-    <div class="swiper-container swiper1">
-      <div class="swiper-wrapper">
-        <div class="swiper-slide">
-          <embed class="pdf-viewer" src="doc/Garda_2022.pdf" type="application/pdf"/>
-        </div>
-        <div class="swiper-slide">
-          <iframe class="video-viewer"
-            src="https://www.youtube.com/embed/7Yrc2C-58SU?autoplay=1&amp;controls=0&amp;rel=0&amp;showinfo=0&amp;mute=1&amp;enablejsapi=1"
-            frameborder="0" allowfullscreen></iframe>
-        </div>
-        <div class="swiper-slide">
-          <p class="text-content">Este es el texto que aparecerá en el slide</p>
-        </div>
-      </div>
-      <!-- Flechas de navegación -->
-      <div class="swiper-button-prev"></div>
-      <div class="swiper-button-next"></div>
+<div id="slider" class="swiper-container">
+  <div class="swiper-wrapper">
+    <div class="swiper-slide">
+      <div id="youtube-video1"></div>
     </div>
-  </div>
-  <div class="box">
-    <div class="swiper-container swiper2">
-      <!-- Contenido del segundo slider -->
+    <div class="swiper-slide">
+      <p class="text-content">Este es el texto que aparecerá en el slide</p>
     </div>
+    <div class="swiper-slide">
+      <embed class="pdf-viewer" src="doc/Garda_2022.pdf" type="application/pdf"/>
+    </div>
+    <!-- Add more slides as needed -->
   </div>
+  <div class="swiper-button-next"></div>
+  <div class="swiper-button-prev"></div>
 </div>
 
-<div class="row">
-  <div class="box">
-    <div class="swiper-container swiper3">
-      <!-- Contenido del tercer slider -->
-    </div>
-  </div>
-  <div class="box">
-    <div class="swiper-container swiper4">
-      <!-- Contenido del cuarto slider -->
-    </div>
-  </div>
-</div>
+<button id="playButton">Play</button>
+
 <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
-
-<script>
-  document.addEventListener('DOMContentLoaded', function() {
-      // Creación e inserción del botón de pantalla completa al principio del documento
-      const fullscreenBtn = document.createElement('button');
-      fullscreenBtn.textContent = 'Pantalla Completa'; // Texto visible en el botón
-      document.body.insertBefore(fullscreenBtn, document.body.firstChild); // Inserta el botón en el cuerpo del documento
-      
-      // Evento de clic para el botón de pantalla completa
-      fullscreenBtn.addEventListener('click', function() {
-          if (document.documentElement.requestFullscreen) {
-              document.documentElement.requestFullscreen(); // Estándar actual
-          } else if (document.documentElement.mozRequestFullScreen) {
-              document.documentElement.mozRequestFullScreen(); // Firefox
-          } else if (document.documentElement.webkitRequestFullscreen) {
-              document.documentElement.webkitRequestFullscreen(); // Chrome, Safari y Opera
-          } else if (document.documentElement.msRequestFullscreen) {
-              document.documentElement.msRequestFullscreen(); // IE/Edge
-          }
-      });
-      
-      // Inicialización de Swiper para todos los contenedores de swiper en la página
-      document.querySelectorAll('.swiper-container').forEach(function(swiperContainer) {
-          new Swiper(swiperContainer, {
-              loop: true,
-              slidesPerView: 'auto',
-              pagination: {
-                  el: swiperContainer.querySelector('.swiper-pagination'),
-                  clickable: true,
-                  dynamicBullets: true,
-              },
-              autoplay: {
-                  delay: 5000,
-                  disableOnInteraction: false,
-              },
-              navigation: {
-                  nextEl: swiperContainer.querySelector('.swiper-button-next'),
-                  prevEl: swiperContainer.querySelector('.swiper-button-prev'),
-              },
-          });
-      });
-  });
-  </script>
-  
-  
-
-<!-- Script de la API de YouTube (necesario para incrustar videos de YouTube) -->
 <script src="https://www.youtube.com/iframe_api"></script>
+<script>
+var player1;
+var videoSlideIndex = 0; // Index of the slide with the video
 
+// Load the video when the page loads
+window.onload = function() {
+  player1 = new YT.Player('youtube-video1', {
+    height: '360',
+    width: '640',
+    videoId: '7Yrc2C-58SU', // Video ID for the first slide
+    playerVars: { 'autoplay': 1, 'controls': 1, 'mute': 0 }, // Ensure video starts muted and autoplay
+    events: {
+      'onReady': onPlayerReady1,
+      'onStateChange': onPlayerStateChange1
+    }
+  });
+}
 
+document.getElementById('playButton').addEventListener('click', function() {
+  if (player1) {
+    player1.unMute(); // Unmute the video
+    player1.playVideo(); // Play the video
+  }
+
+  // Move the slider to the first slide
+  swiper.slideTo(videoSlideIndex);
+
+  // Request fullscreen
+  if (document.documentElement.requestFullscreen) {
+    document.documentElement.requestFullscreen();
+  } else if (document.documentElement.mozRequestFullScreen) { // Firefox
+    document.documentElement.mozRequestFullScreen();
+  } else if (document.documentElement.webkitRequestFullscreen) { // Chrome, Safari and Opera
+    document.documentElement.webkitRequestFullscreen();
+  } else if (document.documentElement.msRequestFullscreen) { // IE/Edge
+    document.documentElement.msRequestFullscreen();
+  }
+});
+
+function onPlayerReady1(event) {
+  // Do not hide the play button when the video is ready
+}
+
+function onPlayerStateChange1(event) {
+  if (event.data == YT.PlayerState.PLAYING) {
+    swiper.autoplay.stop(); // Stop autoplay when video starts
+  }
+  if (event.data == YT.PlayerState.ENDED) {
+    swiper.autoplay.start(); // Start autoplay when video ends
+    swiper.slideNext(); // Go to the next slide when video ends
+  }
+}
+
+var swiper = new Swiper('.swiper-container', {
+  // Optional parameters
+  slidesPerView: 1,
+  spaceBetween: 30,
+  loop: true,
+  autoplay: {
+    delay: 3000, // Change slide every 3 seconds
+    disableOnInteraction: false,
+  },
+  navigation: {
+    nextEl: '.swiper-button-next',
+    prevEl: '.swiper-button-prev',
+  },
+  on: {
+    slideChange: function () {
+      if (this.realIndex === videoSlideIndex) {
+        if (player1) {
+          player1.seekTo(0); // Restart video
+          player1.playVideo();
+          this.autoplay.stop(); // Stop autoplay when video starts
+        }
+      } else {
+        if (player1 && player1.getPlayerState() === YT.PlayerState.PLAYING) {
+          player1.stopVideo(); // Stop video when it's not the active slide
+        }
+        this.autoplay.start(); // Start autoplay when video ends
+      }
+    },
+  },
+});
+</script>
 </body>
 </html>
